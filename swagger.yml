@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: Password Cracker
+  description: |-
+    The Password Cracker API allows you to crack hashed passwords.
+    It can crack passwords up to three characters in length, which are the combinations of "A-Z", "a-z", "0-9", "?" and "!".
+    
+    *Note*: Supports hashes generated using SHA1 and SHA256 algorithms.
+
+  version: 1.0.0
+servers:
+  - url: https://ajbt0u1zxh.execute-api.us-east-1.amazonaws.com/dev
+tags:
+  - name: password
+    description: Operations about password
+paths:
+  /password/{shaHash}:
+    get:
+      tags:
+        - password
+      summary: Get password by shaHash
+      description: Returns a single cracked password
+      operationId: getPasswordByShaHash
+      parameters:
+        - name: shaHash
+          in: path
+          description: SHA hash of password to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Password'
+        '404':
+          description: "Error: Password Not Found"
+components:
+  schemas:
+    Password:
+      type: object
+      properties:
+        <shaHash>:
+          type: string
+          example: aaa
